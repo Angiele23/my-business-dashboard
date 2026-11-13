@@ -13,25 +13,26 @@
   --brand-ink: #3A2F7A;    /* text on the lavender tint (9:1) */
   --gold: #B8963E;         /* 古铜金: decoration only */
   --page: #F5F6FB;         /* bright canvas behind the glass (pastel light is drawn on top, see body::before) */
-  --surface: rgba(255, 255, 255, 0.40);   /* frosted glass cards */
+  --surface: rgba(255, 255, 255, 0.14);   /* clear glass cards: the background shows through */
   --surface-2: rgba(118, 124, 178, 0.075); /* soft fill: hover, tracks, code, side panel items */
   --border: rgba(255, 255, 255, 0.85);     /* bright glass edge */
   --line: rgba(110, 116, 168, 0.16);       /* faint outer edge so glass reads on a white canvas */
-  --glass-blur: blur(30px) saturate(200%) brightness(1.04);
+  --glass-blur: blur(10px) saturate(185%);
   /* the liquid rim: a bright top edge, a soft lit bottom edge, a thin inner ring and an inner glow */
-  --glass-hi: inset 0 1.5px 0 rgba(255, 255, 255, 1), inset 0 -1.5px 1px rgba(255, 255, 255, 0.65),
-              inset 0 0 0 1px rgba(255, 255, 255, 0.55), inset 0 -14px 28px -10px rgba(255, 255, 255, 0.55),
-              inset 0 10px 22px -12px rgba(255, 255, 255, 0.9);
+  --glass-hi: inset 0 0 0 1.5px rgba(255, 255, 255, 0.75), inset 0 2px 1px rgba(255, 255, 255, 1),
+              inset 0 -2px 2px rgba(255, 255, 255, 0.8), inset 3px 0 4px -2px rgba(255, 255, 255, 0.8),
+              inset -3px 0 4px -2px rgba(255, 255, 255, 0.8), inset 0 -18px 30px -16px rgba(255, 255, 255, 0.7),
+              inset 0 14px 24px -16px rgba(255, 255, 255, 0.95);
   /* the glossy sheen laid over every glass surface */
-  --sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.10) 38%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.22) 100%);
+  --sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.06) 26%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0.16) 100%);
   /* pastel glass fills (text on them is --ink, ≥ 12:1) */
-  --lav-1: rgba(226, 226, 252, 0.92); --lav-2: rgba(200, 202, 245, 0.85); --lav-glow: rgba(132, 128, 230, 0.30);
-  --pink-1: rgba(252, 224, 236, 0.92); --pink-2: rgba(245, 201, 222, 0.85); --pink-glow: rgba(230, 120, 170, 0.28);
+  --lav-1: rgba(226, 226, 252, 0.62); --lav-2: rgba(196, 198, 246, 0.52); --lav-glow: rgba(132, 128, 230, 0.30);
+  --pink-1: rgba(252, 224, 236, 0.62); --pink-2: rgba(245, 198, 220, 0.52); --pink-glow: rgba(230, 120, 170, 0.28);
   --warm-grey: #8A8084;    /* lines and dashed note outline */
   /* text */
   --ink: #221B1D;          /* body text, 16:1 on white */
   --ink-2: #574D50;        /* secondary text, 8:1 */
-  --muted: #6B6164;        /* captions, 6.0:1 on white, 5.1:1 on the canvas */
+  --muted: #5F5659;        /* captions: ≥ 4.9:1 even on clear glass over the deepest pastel light */
   /* buttons */
   --btn: #2B2A45;          /* dark ink: toast and chart tooltip (white text, 14:1) */
   --btn-hover: #1B1A30;
@@ -51,14 +52,14 @@
   --overdue: #C9372C;      /* outline and mark for a past deadline (≥ 4.2:1 on the tints, 5.2:1 on white; always with "!") */
   /* status: always shown with a word, never colour alone */
   --good: #3F7A3A;
-  --good-text: #3F7A3A;
+  --good-text: #2F6A2B;   /* darker so it stays ≥ 4.5:1 on clear glass */
   --warning: #D08A2A;
-  --warning-text: #A5520F;
+  --warning-text: #8A430A;
   --serious: #C66A3D;
-  --critical: #C2410C;
+  --critical: #A8350A;
   --radius: 16px;          /* controls and small panels */
   --radius-lg: 24px;       /* cards */
-  --shadow: 0 0 0 1px var(--line), 0 2px 6px rgba(76, 82, 140, 0.06), 0 18px 40px rgba(76, 82, 140, 0.12), var(--glass-hi);
+  --shadow: 0 0 0 1px var(--line), 0 6px 12px -4px rgba(60, 66, 120, 0.10), 0 24px 44px -10px rgba(60, 66, 120, 0.20), var(--glass-hi);
   --nav-w: 236px;
   --font: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC", system-ui, sans-serif;
 }
@@ -407,12 +408,14 @@ body { background: transparent; position: relative; }
 body::before {
   content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(46vw 46vw at 6% 4%, rgba(196, 196, 255, 0.85), transparent 68%),
-    radial-gradient(40vw 40vw at 94% 10%, rgba(255, 204, 228, 0.80), transparent 68%),
-    radial-gradient(36vw 36vw at 52% 48%, rgba(214, 236, 255, 0.70), transparent 70%),
-    radial-gradient(42vw 42vw at 88% 94%, rgba(255, 218, 186, 0.80), transparent 68%),
-    radial-gradient(46vw 46vw at 10% 90%, rgba(196, 238, 216, 0.85), transparent 68%),
-    linear-gradient(180deg, #FAFBFF 0%, #F3F5FB 100%);
+    radial-gradient(46vw 46vw at 6% 4%, rgba(190, 190, 255, 0.78), transparent 62%),
+    radial-gradient(40vw 40vw at 94% 8%, rgba(255, 198, 226, 0.78), transparent 62%),
+    radial-gradient(34vw 30vw at 38% 34%, rgba(204, 200, 255, 0.60), transparent 66%),
+    radial-gradient(32vw 30vw at 72% 52%, rgba(190, 236, 222, 0.62), transparent 66%),
+    radial-gradient(34vw 28vw at 48% 82%, rgba(255, 206, 228, 0.55), transparent 66%),
+    radial-gradient(42vw 42vw at 90% 96%, rgba(255, 214, 180, 0.78), transparent 62%),
+    radial-gradient(46vw 46vw at 8% 92%, rgba(190, 236, 212, 0.78), transparent 62%),
+    linear-gradient(135deg, #EEF0FB 0%, #F5EFF7 50%, #EEF5F3 100%);
 }
 /* frosted glass surfaces: see-through fill + glossy sheen + liquid rim */
 .card, .tile, .sidenav, .banner, .modal, .drawer, .segmented, .scn-file, .cal-views {
@@ -421,7 +424,7 @@ body::before {
   box-shadow: var(--shadow);
 }
 .sidenav { border-radius: 26px; }
-.topbar { background: rgba(250, 251, 255, 0.55); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: 0 1px 0 var(--line); }
+.topbar { background: rgba(250, 251, 255, 0.30); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: 0 1px 0 var(--line); }
 .ribbon { background: linear-gradient(90deg, rgba(231, 229, 250, 0.85), rgba(252, 224, 236, 0.85)); }
 .banner.warning { box-shadow: var(--shadow), inset 4px 0 0 var(--warning); }
 .banner.critical { box-shadow: var(--shadow), inset 4px 0 0 var(--critical); }
@@ -433,7 +436,7 @@ body::before {
 .btn, .pill-tabs button, .segmented button, .icon-round {
   transition: background-color .15s, box-shadow .15s, transform .1s;
 }
-.btn { background: var(--sheen), rgba(255, 255, 255, 0.45); border: 1px solid var(--border); box-shadow: 0 0 0 1px var(--line), 0 6px 16px rgba(76, 82, 140, 0.10), var(--glass-hi); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+.btn { background: var(--sheen), rgba(255, 255, 255, 0.22); border: 1px solid var(--border); box-shadow: 0 0 0 1px var(--line), 0 6px 16px rgba(76, 82, 140, 0.10), var(--glass-hi); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
 .btn:hover { background: var(--sheen), rgba(255, 255, 255, 0.75); }
 .btn:active { transform: translateY(1px); }
 .btn.primary, .segmented button.active, .pill-tabs button.active {
@@ -445,7 +448,7 @@ body::before {
 .btn.ghost:hover { background: rgba(255, 255, 255, 0.6); }
 .btn.danger { background: linear-gradient(180deg, rgba(255, 236, 240, 0.85), rgba(252, 222, 228, 0.8)); }
 .pill-tabs button { background: rgba(255, 255, 255, 0.55); border-color: var(--border); box-shadow: 0 0 0 1px var(--line); }
-.icon-round { background: rgba(255, 255, 255, 0.65); box-shadow: 0 0 0 1px var(--line), var(--glass-hi); }
+.icon-round { background: var(--sheen), rgba(255, 255, 255, 0.25); box-shadow: 0 0 0 1px var(--line), var(--glass-hi); }
 .icon-round:hover { background: rgba(255, 255, 255, 0.9); }
 .cal-views button.active { background: rgba(255, 255, 255, 0.9); box-shadow: 0 0 0 1px var(--line), 0 2px 8px rgba(76, 82, 140, 0.10); }
 
@@ -467,16 +470,16 @@ select:focus, input:focus, textarea:focus { background: rgba(255, 255, 255, 0.9)
 .tile.hero .delta { background: rgba(255, 255, 255, 0.85); box-shadow: var(--glass-hi); }
 
 /* tables, calendar, agenda: lighter glass inside the cards */
-th { background: rgba(255, 255, 255, 0.55); }
+th { background: rgba(255, 255, 255, 0.30); }
 .cal-grid { background: rgba(255, 255, 255, 0.25); }
-.cal-dow { background: rgba(255, 255, 255, 0.5); }
-.cal-wday, .agenda-item { background: rgba(255, 255, 255, 0.5); box-shadow: 0 0 0 1px var(--line); }
+.cal-dow { background: rgba(255, 255, 255, 0.28); }
+.cal-wday, .agenda-item { background: var(--sheen), rgba(255, 255, 255, 0.24); box-shadow: 0 0 0 1px var(--line), var(--glass-hi); }
 .agenda-item.overdue { box-shadow: inset 0 0 0 1.5px var(--overdue); }
 .hbar .track { background: rgba(118, 124, 178, 0.12); }
 
 /* overlays: soft frosted backdrop */
 .modal-back, .nav-backdrop { background: rgba(60, 64, 110, 0.18); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-.modal, .drawer { background: rgba(255, 255, 255, 0.78); box-shadow: 0 0 0 1px var(--line), 0 24px 60px rgba(60, 64, 120, 0.22), var(--glass-hi); }
+.modal, .drawer { background: var(--sheen), rgba(255, 255, 255, 0.62); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); box-shadow: 0 0 0 1px var(--line), 0 24px 60px rgba(60, 64, 120, 0.22), var(--glass-hi); }
 .toast { box-shadow: 0 10px 30px rgba(43, 42, 69, 0.3); }
 
 /* browsers without frosted glass, and viewers who ask for less transparency: solid surfaces */
