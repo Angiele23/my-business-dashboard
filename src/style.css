@@ -1,35 +1,42 @@
-/* Business Dashboard Starter — the redesigned look (Oct 2026): white rounded cards on a light warm-grey
-   canvas, the brand's 深酒红 wine for emphasis and a soft rose tint for selection, near-black
-   pill buttons. Light only by design. Every text colour was checked for at least 4.5:1 contrast
-   on the surface it sits on (2026-10-20); chart colours are the validated steps of the earlier look
-   (CVD ΔE ≥ 16, ≥ 3:1 on the card). Gold is decoration only, never text.
+/* Business Dashboard Starter — the "liquid glass" look (Nov 2026): frosted, see-through glass cards
+   and pill buttons floating on a bright, airy canvas with soft pastel light (lavender, mint, peach,
+   pink). Deep violet for emphasis, lavender glass for selection and the main button. Light only by
+   design. Text stays dark on near-white glass, so every text colour keeps at least 4.5:1 contrast;
+   chart colours are the validated steps of the earlier look (CVD ΔE ≥ 16, ≥ 3:1 on the card).
+   Gold is decoration only, never text.
    No web fonts: the page must work offline, so it uses the fonts already on the computer. */
 :root {
   color-scheme: light;
   /* brand */
-  --brand: #5A1A2B;        /* 深酒红: emphasis, the reporting date, the dark alert card */
-  --brand-soft: #F3E1E8;   /* rose tint: selected menu item, the main figure's card */
-  --brand-ink: #5A1A2B;    /* text on the rose tint (10:1) */
-  --gold: #B8963E;         /* 古铜金: decoration only (the logo stripe) */
-  --page: #EFEDE9;         /* canvas behind the cards */
-  --surface: #FFFFFF;      /* cards */
-  --surface-2: #F5F3EF;    /* soft fill: hover, tracks, code, side panel items */
-  --border: #E6E1DA;       /* hairlines */
+  --brand: #4B3F8F;        /* deep violet: emphasis, the reporting date (8.7:1 on white) */
+  --brand-soft: #E7E5FA;   /* lavender tint: selected menu item, the main figure's card */
+  --brand-ink: #3A2F7A;    /* text on the lavender tint (9:1) */
+  --gold: #B8963E;         /* 古铜金: decoration only */
+  --page: #F5F6FB;         /* bright canvas behind the glass (pastel light is drawn on top, see body::before) */
+  --surface: rgba(255, 255, 255, 0.58);   /* frosted glass cards */
+  --surface-2: rgba(118, 124, 178, 0.075); /* soft fill: hover, tracks, code, side panel items */
+  --border: rgba(255, 255, 255, 0.85);     /* bright glass edge */
+  --line: rgba(110, 116, 168, 0.16);       /* faint outer edge so glass reads on a white canvas */
+  --glass-blur: blur(22px) saturate(170%);
+  --glass-hi: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(255, 255, 255, 0.35);
+  /* pastel glass fills (text on them is --ink, ≥ 12:1) */
+  --lav-1: rgba(226, 226, 252, 0.92); --lav-2: rgba(200, 202, 245, 0.85); --lav-glow: rgba(132, 128, 230, 0.30);
+  --pink-1: rgba(252, 224, 236, 0.92); --pink-2: rgba(245, 201, 222, 0.85); --pink-glow: rgba(230, 120, 170, 0.28);
   --warm-grey: #8A8084;    /* lines and dashed note outline */
   /* text */
   --ink: #221B1D;          /* body text, 16:1 on white */
   --ink-2: #574D50;        /* secondary text, 8:1 */
   --muted: #6B6164;        /* captions, 6.0:1 on white, 5.1:1 on the canvas */
   /* buttons */
-  --btn: #221B1D;          /* primary button */
-  --btn-hover: #000000;
+  --btn: #2B2A45;          /* dark ink: toast and chart tooltip (white text, 14:1) */
+  --btn-hover: #1B1A30;
   /* charts (validated: lightness band, chroma, CVD ΔE ≥ 16, ≥ 3:1 on card) */
   --accent: #93324B;       /* series 1: wine step */
   --accent-soft: #F3E1E8;
   --series-2: #B08A33;     /* series 2: gold step */
   --series-3: #2370B5;     /* blue */
-  --grid: #EEEAE4;
-  --axis: #D3CABF;
+  --grid: rgba(110, 116, 168, 0.14);
+  --axis: #C9CADB;
   /* calendar types: tint + text (≥ 7:1 on the tint) + dot */
   --pay-bg: #FBEBCB;  --pay-ink: #6B4205;  --pay-dot: #C9821F;
   --fol-bg: #ECE6F8;  --fol-ink: #3E2F78;  --fol-dot: #7B66C9;
@@ -44,9 +51,9 @@
   --warning-text: #A5520F;
   --serious: #C66A3D;
   --critical: #C2410C;
-  --radius: 14px;          /* controls and small panels */
-  --radius-lg: 20px;       /* cards */
-  --shadow: 0 1px 2px rgba(34, 27, 29, 0.04);
+  --radius: 16px;          /* controls and small panels */
+  --radius-lg: 24px;       /* cards */
+  --shadow: 0 0 0 1px var(--line), 0 12px 32px rgba(76, 82, 140, 0.09), var(--glass-hi);
   --nav-w: 236px;
   --font: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC", system-ui, sans-serif;
 }
@@ -108,7 +115,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
 .sidenav a[hidden] { display: none !important; }
 .nav-label { flex: 1; min-width: 0; }
 .nav-label .en { color: var(--muted); font-size: 12px; font-weight: 400; }
-.sidenav a.active .nav-label .en { color: #8A4D60; }
+.sidenav a.active .nav-label .en { color: #5E569A; }
 .sidenav-foot { margin-top: auto; padding: 16px 8px 4px; display: flex; gap: 8px; align-items: flex-start; line-height: 1.5; }
 .sidenav-foot .ico { width: 15px; height: 15px; margin-top: 2px; }
 .count { background: var(--surface-2); border-radius: 999px; padding: 0 8px; font-size: 12px; color: var(--ink-2); font-weight: 600; }
@@ -175,16 +182,16 @@ a.btn { display: inline-block; text-decoration: none; margin-bottom: 8px; }
 .tile .foot { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
 /* the main figure: rose card, large wine number; two columns wide on a wide screen */
 .tile.hero { background: var(--brand-soft); padding: 20px 22px; }
-.tile.hero .label, .tile.hero .foot { color: #6E3346; }
+.tile.hero .label, .tile.hero .foot { color: #4A4280; }
 .tile.hero .value { color: var(--brand-ink); font-size: 42px; margin: 10px 0 8px; }
 .tile.hero .delta { display: inline-block; background: #fff; border-radius: 999px; padding: 3px 12px; font-weight: 600; color: var(--ink-2); }
 .tile.hero .delta.up { color: var(--good-text); } .tile.hero .delta.down { color: var(--critical); }
 @media (min-width: 900px) { .tile.hero { grid-column: span 2; } }
 @media (min-width: 1100px) { .overview-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-/* something to act on (overdue money, a data problem): the dark wine card */
-.tile.alert { background: var(--brand); }
-.tile.alert .label, .tile.alert .foot { color: #EBCBD5; }
-.tile.alert .value { color: #fff; }
+/* something to act on (overdue money, a data problem): the pink glass card, dark wine text (≥ 6.8:1) */
+.tile.alert { background: linear-gradient(140deg, var(--pink-1), var(--pink-2)); box-shadow: 0 0 0 1px rgba(214, 140, 176, 0.35), 0 12px 30px var(--pink-glow), var(--glass-hi); }
+.tile.alert .label, .tile.alert .foot { color: #7A2E4A; }
+.tile.alert .value { color: #5A1A2B; }
 .page-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 4px 0 14px; }
 .page-head h1 { flex: 1 1 auto; margin: 0; }
 .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
@@ -267,9 +274,9 @@ tr.clickable:hover { background: var(--surface-2); }
 .cal-dow + .cal-dow, .cal-day:not(:nth-child(7n + 1)) { border-left: 1px solid var(--grid); }
 .cal-day { min-height: 104px; padding: 6px; border-top: 1px solid var(--grid); display: flex; flex-direction: column; gap: 4px; cursor: pointer; min-width: 0; position: relative; }
 .cal-dow + .cal-day, .cal-grid > .cal-day:nth-child(-n + 14) { border-top: 0; }
-.cal-day.weekend { background: #FBFAF8; }
-.cal-day:hover { background: #FBF6F8; }
-.cal-day.selected { background: #FBF4F7; box-shadow: inset 0 0 0 2px var(--brand); }
+.cal-day.weekend { background: rgba(255, 255, 255, 0.35); }
+.cal-day:hover { background: rgba(231, 229, 250, 0.45); }
+.cal-day.selected { background: rgba(231, 229, 250, 0.65); box-shadow: inset 0 0 0 2px var(--brand); }
 .cal-day .d { font: inherit; font-size: 13px; font-weight: 650; color: var(--ink); width: 26px; height: 26px; border-radius: 50%; border: 0; background: transparent; display: grid; place-items: center; cursor: pointer; padding: 0; }
 .cal-day.other .d { color: var(--muted); font-weight: 400; }
 .cal-day.today .d { background: var(--brand); color: #fff; }
@@ -298,7 +305,7 @@ tr.clickable:hover { background: var(--surface-2); }
 .cal-more:hover { color: var(--brand); text-decoration: underline; }
 .cal-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
 .cal-wday { background: var(--surface-2); border-radius: var(--radius); padding: 10px 8px; min-height: 220px; cursor: pointer; min-width: 0; }
-.cal-wday.selected { box-shadow: inset 0 0 0 2px var(--brand); background: #FBF4F7; }
+.cal-wday.selected { box-shadow: inset 0 0 0 2px var(--brand); background: rgba(231, 229, 250, 0.65); }
 .wd-head { display: flex; flex-direction: column; font-size: 12.5px; font-weight: 650; margin-bottom: 8px; }
 .cal-wday.today .wd-head > span:first-child { color: var(--brand); }
 .cal-list { display: flex; flex-direction: column; gap: 8px; }
@@ -311,7 +318,7 @@ tr.clickable:hover { background: var(--surface-2); }
 .ag-sub { margin: 4px 0 14px; }
 .ag-section { font-size: 12.5px; color: var(--muted); margin: 18px 0 10px; }
 .agenda-item { display: flex; gap: 12px; align-items: center; width: 100%; text-align: left; font: inherit; border: 0; background: var(--surface-2); border-radius: 16px; padding: 11px 12px; margin-bottom: 8px; cursor: pointer; color: var(--ink); }
-.agenda-item:hover { background: #EFECE7; }
+.agenda-item:hover { background: rgba(118, 124, 178, 0.13); }
 .agenda-item.overdue { box-shadow: inset 0 0 0 1.5px var(--overdue); }
 .ai-icon { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; flex: none; background: var(--note-bg); color: var(--note-ink); }
 .agenda-item.t-payment .ai-icon { background: var(--pay-bg); color: var(--pay-ink); }
@@ -385,3 +392,93 @@ details summary { cursor: pointer; color: var(--brand); font-size: 14px; margin:
 :focus-visible { outline: 2px solid var(--series-3); outline-offset: 2px; }
 .ok { color: var(--good-text); } .bad { color: var(--critical); } .warn { color: var(--warning-text); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* ── liquid glass layer ────────────────────────────────────────────────────────────────────────
+   Bright see-through canvas with soft pastel light, frosted glass panels, glossy pill buttons.
+   Everything here is decoration on top of the variables above; text colours are unchanged. */
+html { background: var(--page); }
+body { background: transparent; position: relative; }
+/* the airy pastel light behind everything (fixed, so it does not scroll or repaint) */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(42vw 42vw at 8% 6%, rgba(206, 206, 255, 0.55), transparent 70%),
+    radial-gradient(38vw 38vw at 92% 12%, rgba(255, 214, 232, 0.50), transparent 70%),
+    radial-gradient(40vw 40vw at 85% 92%, rgba(255, 224, 196, 0.45), transparent 70%),
+    radial-gradient(44vw 44vw at 12% 88%, rgba(204, 240, 222, 0.50), transparent 70%),
+    linear-gradient(180deg, #FAFBFF 0%, #F3F5FB 100%);
+}
+/* frosted glass surfaces */
+.card, .tile, .sidenav, .banner, .modal, .drawer, .segmented, .scn-file, .cal-views {
+  background: var(--surface);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow);
+}
+.sidenav { border-radius: 26px; }
+.topbar { background: rgba(250, 251, 255, 0.55); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: 0 1px 0 var(--line); }
+.ribbon { background: linear-gradient(90deg, rgba(231, 229, 250, 0.85), rgba(252, 224, 236, 0.85)); }
+.banner.warning { box-shadow: var(--shadow), inset 4px 0 0 var(--warning); }
+.banner.critical { box-shadow: var(--shadow), inset 4px 0 0 var(--critical); }
+.banner.info { box-shadow: var(--shadow), inset 4px 0 0 var(--brand); }
+.scope-card { box-shadow: var(--shadow); }
+.brand-mark { background: linear-gradient(140deg, #C9CBF6, #F4C9DF); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 10px var(--lav-glow); border-radius: 8px; }
+
+/* glossy pill buttons: clear glass by default, lavender glass for the main action */
+.btn, .pill-tabs button, .segmented button, .icon-round {
+  transition: background-color .15s, box-shadow .15s, transform .1s;
+}
+.btn { background: rgba(255, 255, 255, 0.6); border: 1px solid var(--border); box-shadow: 0 0 0 1px var(--line), 0 4px 12px rgba(76, 82, 140, 0.08), var(--glass-hi); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+.btn:hover { background: rgba(255, 255, 255, 0.85); }
+.btn:active { transform: translateY(1px); }
+.btn.primary, .segmented button.active, .pill-tabs button.active {
+  background: linear-gradient(180deg, var(--lav-1), var(--lav-2)); color: var(--ink); border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 1px rgba(150, 150, 220, 0.35), 0 6px 18px var(--lav-glow), var(--glass-hi);
+}
+.btn.primary:hover { background: linear-gradient(180deg, rgba(234, 234, 255, 0.95), rgba(208, 210, 250, 0.9)); }
+.btn.ghost { background: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.btn.ghost:hover { background: rgba(255, 255, 255, 0.6); }
+.btn.danger { background: linear-gradient(180deg, rgba(255, 236, 240, 0.85), rgba(252, 222, 228, 0.8)); }
+.pill-tabs button { background: rgba(255, 255, 255, 0.55); border-color: var(--border); box-shadow: 0 0 0 1px var(--line); }
+.icon-round { background: rgba(255, 255, 255, 0.65); box-shadow: 0 0 0 1px var(--line), var(--glass-hi); }
+.icon-round:hover { background: rgba(255, 255, 255, 0.9); }
+.cal-views button.active { background: rgba(255, 255, 255, 0.9); box-shadow: 0 0 0 1px var(--line), 0 2px 8px rgba(76, 82, 140, 0.10); }
+
+/* inputs: frosted wells */
+select, input[type="text"], input[type="date"], input[type="search"], textarea, .ai-live .key-input {
+  background: rgba(255, 255, 255, 0.62); border: 1px solid var(--border);
+  box-shadow: 0 0 0 1px var(--line), inset 0 1px 2px rgba(76, 82, 140, 0.06);
+}
+select:focus, input:focus, textarea:focus { background: rgba(255, 255, 255, 0.9); }
+
+/* menu: the selected item is a lavender glass pill */
+.sidenav a { border-radius: 14px; }
+.sidenav a:hover { background: rgba(255, 255, 255, 0.55); }
+.sidenav a.active { background: linear-gradient(180deg, var(--lav-1), var(--lav-2)); box-shadow: 0 0 0 1px rgba(150, 150, 220, 0.3), 0 4px 14px var(--lav-glow), var(--glass-hi); }
+.sidenav a.active .count { background: rgba(255, 255, 255, 0.85); }
+
+/* the main figure: lavender glass */
+.tile.hero { background: linear-gradient(140deg, var(--lav-1), var(--lav-2)); box-shadow: 0 0 0 1px rgba(150, 150, 220, 0.3), 0 14px 34px var(--lav-glow), var(--glass-hi); }
+.tile.hero .delta { background: rgba(255, 255, 255, 0.85); box-shadow: var(--glass-hi); }
+
+/* tables, calendar, agenda: lighter glass inside the cards */
+th { background: rgba(255, 255, 255, 0.55); }
+.cal-grid { background: rgba(255, 255, 255, 0.25); }
+.cal-dow { background: rgba(255, 255, 255, 0.5); }
+.cal-wday, .agenda-item { background: rgba(255, 255, 255, 0.5); box-shadow: 0 0 0 1px var(--line); }
+.agenda-item.overdue { box-shadow: inset 0 0 0 1.5px var(--overdue); }
+.hbar .track { background: rgba(118, 124, 178, 0.12); }
+
+/* overlays: soft frosted backdrop */
+.modal-back, .nav-backdrop { background: rgba(60, 64, 110, 0.18); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.modal, .drawer { background: rgba(255, 255, 255, 0.78); box-shadow: 0 0 0 1px var(--line), 0 24px 60px rgba(60, 64, 120, 0.22), var(--glass-hi); }
+.toast { box-shadow: 0 10px 30px rgba(43, 42, 69, 0.3); }
+
+/* browsers without frosted glass, and viewers who ask for less transparency: solid surfaces */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root { --surface: rgba(255, 255, 255, 0.9); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root { --surface: #FFFFFF; }
+  body::before { background: var(--page); }
+  .modal, .drawer, .topbar { background: #FFFFFF; }
+}
