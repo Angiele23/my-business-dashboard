@@ -13,12 +13,17 @@
   --brand-ink: #3A2F7A;    /* text on the lavender tint (9:1) */
   --gold: #B8963E;         /* 古铜金: decoration only */
   --page: #F5F6FB;         /* bright canvas behind the glass (pastel light is drawn on top, see body::before) */
-  --surface: rgba(255, 255, 255, 0.58);   /* frosted glass cards */
+  --surface: rgba(255, 255, 255, 0.40);   /* frosted glass cards */
   --surface-2: rgba(118, 124, 178, 0.075); /* soft fill: hover, tracks, code, side panel items */
   --border: rgba(255, 255, 255, 0.85);     /* bright glass edge */
   --line: rgba(110, 116, 168, 0.16);       /* faint outer edge so glass reads on a white canvas */
-  --glass-blur: blur(22px) saturate(170%);
-  --glass-hi: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(255, 255, 255, 0.35);
+  --glass-blur: blur(30px) saturate(200%) brightness(1.04);
+  /* the liquid rim: a bright top edge, a soft lit bottom edge, a thin inner ring and an inner glow */
+  --glass-hi: inset 0 1.5px 0 rgba(255, 255, 255, 1), inset 0 -1.5px 1px rgba(255, 255, 255, 0.65),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.55), inset 0 -14px 28px -10px rgba(255, 255, 255, 0.55),
+              inset 0 10px 22px -12px rgba(255, 255, 255, 0.9);
+  /* the glossy sheen laid over every glass surface */
+  --sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.10) 38%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.22) 100%);
   /* pastel glass fills (text on them is --ink, ≥ 12:1) */
   --lav-1: rgba(226, 226, 252, 0.92); --lav-2: rgba(200, 202, 245, 0.85); --lav-glow: rgba(132, 128, 230, 0.30);
   --pink-1: rgba(252, 224, 236, 0.92); --pink-2: rgba(245, 201, 222, 0.85); --pink-glow: rgba(230, 120, 170, 0.28);
@@ -53,7 +58,7 @@
   --critical: #C2410C;
   --radius: 16px;          /* controls and small panels */
   --radius-lg: 24px;       /* cards */
-  --shadow: 0 0 0 1px var(--line), 0 12px 32px rgba(76, 82, 140, 0.09), var(--glass-hi);
+  --shadow: 0 0 0 1px var(--line), 0 2px 6px rgba(76, 82, 140, 0.06), 0 18px 40px rgba(76, 82, 140, 0.12), var(--glass-hi);
   --nav-w: 236px;
   --font: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC", system-ui, sans-serif;
 }
@@ -189,7 +194,7 @@ a.btn { display: inline-block; text-decoration: none; margin-bottom: 8px; }
 @media (min-width: 900px) { .tile.hero { grid-column: span 2; } }
 @media (min-width: 1100px) { .overview-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 /* something to act on (overdue money, a data problem): the pink glass card, dark wine text (≥ 6.8:1) */
-.tile.alert { background: linear-gradient(140deg, var(--pink-1), var(--pink-2)); box-shadow: 0 0 0 1px rgba(214, 140, 176, 0.35), 0 12px 30px var(--pink-glow), var(--glass-hi); }
+.tile.alert { background: var(--sheen), linear-gradient(140deg, var(--pink-1), var(--pink-2)); box-shadow: 0 0 0 1px rgba(214, 140, 176, 0.40), 0 18px 40px var(--pink-glow), var(--glass-hi); }
 .tile.alert .label, .tile.alert .foot { color: #7A2E4A; }
 .tile.alert .value { color: #5A1A2B; }
 .page-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 4px 0 14px; }
@@ -402,15 +407,16 @@ body { background: transparent; position: relative; }
 body::before {
   content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(42vw 42vw at 8% 6%, rgba(206, 206, 255, 0.55), transparent 70%),
-    radial-gradient(38vw 38vw at 92% 12%, rgba(255, 214, 232, 0.50), transparent 70%),
-    radial-gradient(40vw 40vw at 85% 92%, rgba(255, 224, 196, 0.45), transparent 70%),
-    radial-gradient(44vw 44vw at 12% 88%, rgba(204, 240, 222, 0.50), transparent 70%),
+    radial-gradient(46vw 46vw at 6% 4%, rgba(196, 196, 255, 0.85), transparent 68%),
+    radial-gradient(40vw 40vw at 94% 10%, rgba(255, 204, 228, 0.80), transparent 68%),
+    radial-gradient(36vw 36vw at 52% 48%, rgba(214, 236, 255, 0.70), transparent 70%),
+    radial-gradient(42vw 42vw at 88% 94%, rgba(255, 218, 186, 0.80), transparent 68%),
+    radial-gradient(46vw 46vw at 10% 90%, rgba(196, 238, 216, 0.85), transparent 68%),
     linear-gradient(180deg, #FAFBFF 0%, #F3F5FB 100%);
 }
-/* frosted glass surfaces */
+/* frosted glass surfaces: see-through fill + glossy sheen + liquid rim */
 .card, .tile, .sidenav, .banner, .modal, .drawer, .segmented, .scn-file, .cal-views {
-  background: var(--surface);
+  background: var(--sheen), var(--surface);
   -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
   box-shadow: var(--shadow);
 }
@@ -427,14 +433,14 @@ body::before {
 .btn, .pill-tabs button, .segmented button, .icon-round {
   transition: background-color .15s, box-shadow .15s, transform .1s;
 }
-.btn { background: rgba(255, 255, 255, 0.6); border: 1px solid var(--border); box-shadow: 0 0 0 1px var(--line), 0 4px 12px rgba(76, 82, 140, 0.08), var(--glass-hi); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
-.btn:hover { background: rgba(255, 255, 255, 0.85); }
+.btn { background: var(--sheen), rgba(255, 255, 255, 0.45); border: 1px solid var(--border); box-shadow: 0 0 0 1px var(--line), 0 6px 16px rgba(76, 82, 140, 0.10), var(--glass-hi); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+.btn:hover { background: var(--sheen), rgba(255, 255, 255, 0.75); }
 .btn:active { transform: translateY(1px); }
 .btn.primary, .segmented button.active, .pill-tabs button.active {
-  background: linear-gradient(180deg, var(--lav-1), var(--lav-2)); color: var(--ink); border-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 0 1px rgba(150, 150, 220, 0.35), 0 6px 18px var(--lav-glow), var(--glass-hi);
+  background: var(--sheen), linear-gradient(180deg, var(--lav-1), var(--lav-2)); color: var(--ink); border-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(150, 150, 220, 0.40), 0 8px 24px var(--lav-glow), 0 0 22px -4px var(--lav-glow), var(--glass-hi);
 }
-.btn.primary:hover { background: linear-gradient(180deg, rgba(234, 234, 255, 0.95), rgba(208, 210, 250, 0.9)); }
+.btn.primary:hover { background: var(--sheen), linear-gradient(180deg, rgba(234, 234, 255, 0.95), rgba(208, 210, 250, 0.9)); }
 .btn.ghost { background: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
 .btn.ghost:hover { background: rgba(255, 255, 255, 0.6); }
 .btn.danger { background: linear-gradient(180deg, rgba(255, 236, 240, 0.85), rgba(252, 222, 228, 0.8)); }
@@ -453,11 +459,11 @@ select:focus, input:focus, textarea:focus { background: rgba(255, 255, 255, 0.9)
 /* menu: the selected item is a lavender glass pill */
 .sidenav a { border-radius: 14px; }
 .sidenav a:hover { background: rgba(255, 255, 255, 0.55); }
-.sidenav a.active { background: linear-gradient(180deg, var(--lav-1), var(--lav-2)); box-shadow: 0 0 0 1px rgba(150, 150, 220, 0.3), 0 4px 14px var(--lav-glow), var(--glass-hi); }
+.sidenav a.active { background: var(--sheen), linear-gradient(180deg, var(--lav-1), var(--lav-2)); box-shadow: 0 0 0 1px rgba(150, 150, 220, 0.35), 0 6px 18px var(--lav-glow), var(--glass-hi); }
 .sidenav a.active .count { background: rgba(255, 255, 255, 0.85); }
 
 /* the main figure: lavender glass */
-.tile.hero { background: linear-gradient(140deg, var(--lav-1), var(--lav-2)); box-shadow: 0 0 0 1px rgba(150, 150, 220, 0.3), 0 14px 34px var(--lav-glow), var(--glass-hi); }
+.tile.hero { background: var(--sheen), linear-gradient(140deg, var(--lav-1), var(--lav-2)); box-shadow: 0 0 0 1px rgba(150, 150, 220, 0.35), 0 18px 44px var(--lav-glow), var(--glass-hi); }
 .tile.hero .delta { background: rgba(255, 255, 255, 0.85); box-shadow: var(--glass-hi); }
 
 /* tables, calendar, agenda: lighter glass inside the cards */
